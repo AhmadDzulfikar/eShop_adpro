@@ -26,6 +26,7 @@
             <td>
                 <!-- Add an Edit button with a link to the edit page -->
                 <a th:href="@{/product/edit/{productId}(productId=${product.productId})}" class="btn btn-warning btn-sm">Edit</a>
+                <a th:href="@{'/product/delete/' + ${product.productId}}" class="btn btn-primary btn-sm mb-3">Delete Product</a>
             </td>
         </tr>
         </tbody>
