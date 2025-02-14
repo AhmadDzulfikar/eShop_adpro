@@ -63,4 +63,48 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testUpdateProduct(){
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8868-71af6af63bd6");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        product.setProductName("Sampo Cap Bangor");
+        product.setProductQuantity(150);
+        productRepository.update(product);
+
+        Iterator<Product> productIterator = productRepository.findAll();
+        assertTrue(productIterator.hasNext());
+        Product updateedProduct = productIterator.next();
+
+        assertEquals(product.getProductId(), updateedProduct.getProductId());
+        assertEquals(product.getProductName(), updateedProduct.getProductName());
+        assertEquals(product.getProductQuantity(), updateedProduct.getProductQuantity());
+    }
+
+    // Null assertion if product doesn't exist while being updateed
+    @Test
+    void testUpdateIfProductNotFound(){
+        Product product = new Product();
+
+        Product productNotExist = productRepository.update(product);
+        assertNull(productNotExist);
+    }
+
+    // This delete test re-assure if the product is already null
+    @Test
+    void testDeleteProduct(){
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6a");
+        product.setProductName("Sampo Cap Bambang");
+        product.setProductQuantity(100);
+        productRepository.create(product);
+
+        assertNotNull(productRepository.findById(product.getProductId()));
+        productRepository.delete(product.getProductId());
+        assertNull(productRepository.findById(product.getProductId()));
+    }
 }
