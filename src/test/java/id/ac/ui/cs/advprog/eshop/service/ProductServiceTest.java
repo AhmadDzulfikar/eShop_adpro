@@ -70,4 +70,35 @@ public class ProductServiceTest {
         assertEquals(20, result.get(1).getProductQuantity());
     }
 
+    @Test
+    public void findByIdTest() throws Exception{
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6a");
+        product.setProductName("Sabun Cap Ayam");
+        product.setProductQuantity(10);
+
+        when(productRepository.findById("eb558e9f-1c39-460e-8860-71af6af63bd6a")).thenReturn(product);
+
+        Product result = productService.findById("eb558e9f-1c39-460e-8860-71af6af63bd6a");
+
+        assertNotNull(result);
+        assertEquals("Sabun Cap Ayam", result.getProductName());
+        assertEquals(10, result.getProductQuantity());
+    }
+
+    @Test
+    public void editTest() throws Exception {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6a");
+        product.setProductName("Sabun Cap Ayam");
+        product.setProductQuantity(10);
+
+        when(productRepository.edit(product)).thenReturn(product);
+
+        Product result = productService.edit(product);
+
+        assertNotNull(result);
+        assertEquals("Sabun Cap Ayam", result.getProductName());
+        assertEquals(10, result.getProductQuantity());
+    }
 }

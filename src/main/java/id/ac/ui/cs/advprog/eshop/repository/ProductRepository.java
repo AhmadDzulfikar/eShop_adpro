@@ -42,6 +42,22 @@ public class ProductRepository {
         return productToEdit;
     }
 
+    public Product edit(Product product){
+        Product existProduct = findById(product.getProductId());
+        if(existProduct != null){
+            int index  = productData.indexOf(existProduct);
+            if (product.getProductQuantity() <= 0) {
+                throw new IllegalArgumentException("Quantity must be greater than zero.");
+            }
+            if (product.getProductName() == null || product.getProductName().trim().isEmpty()) {
+                throw new IllegalArgumentException("Product name cannot be null or empty.");
+            }
+            productData.set(index, product);
+            return product;
+        }
+        return null;
+    }
+
     public void delete(String id) {
         Product deletedProduct = findById(id);
         if (deletedProduct != null) {
