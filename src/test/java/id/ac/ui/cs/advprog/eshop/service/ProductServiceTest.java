@@ -101,4 +101,12 @@ public class ProductServiceTest {
         assertEquals("Sabun Cap Ayam", result.getProductName());
         assertEquals(10, result.getProductQuantity());
     }
+
+    @Test
+    public void deleteTest() throws Exception{
+        String productIDOnlyForTest = "abc";
+
+        doNothing().when(productRepository).delete(productIDOnlyForTest);
+        productService.delete(productIDOnlyForTest);
+    }
 }
