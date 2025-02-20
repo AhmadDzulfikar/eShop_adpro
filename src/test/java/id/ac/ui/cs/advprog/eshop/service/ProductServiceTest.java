@@ -87,6 +87,28 @@ public class ProductServiceTest {
     }
 
     @Test
+    public void updateTest() throws Exception {
+        Product originalProduct = new Product();
+        originalProduct.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6a");
+        originalProduct.setProductName("Sabun Cap Ayam");
+        originalProduct.setProductQuantity(10);
+
+        Product updatedProduct = new Product();
+        updatedProduct.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6a");
+        updatedProduct.setProductName("Sabun Cap Bebek");
+        updatedProduct.setProductQuantity(15);
+
+        when(productRepository.update(updatedProduct)).thenReturn(updatedProduct);
+
+        Product result = productService.update(updatedProduct);
+
+        assertNotNull(result);
+        assertEquals("Sabun Cap Bebek", result.getProductName());
+        assertEquals(15, result.getProductQuantity());
+    }
+
+
+    @Test
     public void editTest() throws Exception {
         Product product = new Product();
         product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6a");
