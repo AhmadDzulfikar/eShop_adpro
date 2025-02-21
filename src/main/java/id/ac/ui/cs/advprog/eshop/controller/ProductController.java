@@ -19,7 +19,7 @@ public class ProductController {
     public String createProductPage(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
-        return "createProduct";
+        return "CreateProduct";
     }
 
     @PostMapping("/create")
@@ -35,7 +35,7 @@ public class ProductController {
             return "redirect:/product/list";
         }
         model.addAttribute("product", product);
-        return "editProduct";
+        return "EditProduct";
     }
 
     @PostMapping("/edit/{id}")
@@ -52,7 +52,7 @@ public class ProductController {
             return "redirect:/product/list";
         }
         model.addAttribute("product", product);
-        return "deleteProduct"; // Halaman konfirmasi delete
+        return "DeleteProduct"; // Halaman konfirmasi delete
     }
 
     @PostMapping("/delete/{id}")
@@ -65,6 +65,6 @@ public class ProductController {
     public String productListPage(Model model) {
         List<Product> allProduct = service.findAll();
         model.addAttribute("products", allProduct);
-        return "productList";
+        return "ProductList";
     }
 }
