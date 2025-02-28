@@ -45,4 +45,18 @@ Pada proyek ini, saya telah menerapkan DIP dengan cara sebagai berikut:
 c. Open/Closed Principle (OCP) menyatakan bahwa kelas harus terbuka untuk ekstensi, tetapi tertutup untuk modifikasi. Saya sudah menerapkan ini dengan cara CarServiceImpl mengimplements CarService.
 
 ## Refleksi 2:
-### 
+### Explain the advantages of applying SOLID principles to your project with examples.
+- Pemeliharaan Kode yang Lebih Mudah (Single Responsibility Principle - SRP)
+Dengan memisahkan tanggung jawab dalam berbagai kelas, seperti CarController yang hanya menangani operasi terkait car, dan ProductController yang menangani operasi terkait produk, kita dapat lebih mudah melakukan pemeliharaan kode. Misalnya, jika ada perubahan pada logika yang berhubungan dengan car, kita hanya perlu mengubah CarController tanpa memengaruhi bagian lain yang berhubungan dengan produk. 
+
+- Penerapan DIP pada proyek ini memberikan fleksibilitas yang lebih tinggi dalam hal penggantian atau perbaikan implementasi kelas yang lebih rendah tanpa mengubah kelas tingkat tinggi. Misalnya, dengan menggunakan CarRepositoryInterface, ini dapat mengganti implementasi penyimpanan data, seperti beralih dari penyimpanan berbasis file ke database, tanpa perlu mengubah kode dalam CarServiceImpl.
+
+- Dengan prinsip OCP, kelas seperti CarServiceImpl dapat diperluas dengan menambahkan fungsionalitas baru tanpa mengubah kode yang sudah ada. Sebagai contoh, jika ingin menambahkan fitur baru pada CarServiceImpl, seperti fitur pencarian mobil, bisa membuat subclass atau implementasi baru tanpa memodifikasi implementasi yang ada. Ini mengurangi risiko bug dan memastikan bahwa fitur yang ada tetap stabil saat pengembangan berlanjut.
+
+## Refleksi 3:
+### Explain the disadvantages of not applying SOLID principles to your project with examples.
+- Jika satu kelas memiliki lebih dari satu tanggung jawab, seperti jika CarController juga mengelola logika produk atau fungsionalitas lainnya, kode menjadi lebih sulit dipahami dan dimodifikasi. Misalnya, jika ada perubahan pada logika terkait mobil dan produk, harus mengubah satu kelas yang sangat kompleks, yang berisiko menyebabkan bug dan memperlambat proses pemeliharaan. 
+
+- Tanpa penerapan DIP, kelas tingkat tinggi akan bergantung langsung pada kelas tingkat rendah, yang membuat kode menjadi sulit untuk diperbarui. Misalnya, jika CarServiceImpl langsung bergantung pada implementasi CarRepository yang konkret, perubahan pada cara penyimpanan data akan mengharuskan untuk mengubah kode di berbagai tempat, termasuk service dan controller, yang sangat berisiko mengganggu fungsionalitas yang ada. 
+
+- Jika kode tidak mengikuti prinsip OCP, maka menambahkan fitur baru akan memerlukan perubahan langsung pada kelas yang sudah ada, bukannya cukup memperluasnya. Misalnya, jika ingin menambahkan fungsionalitas pencarian dalam CarServiceImpl, mungkin harus mengubah banyak bagian dari kode yang ada, yang berisiko menimbulkan bug atau merusak fungsionalitas yang sudah ada.
