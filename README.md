@@ -27,7 +27,22 @@ a. Saya menyelesaikan masalah `Unnecessary modifier 'public' on method 'delete':
 b. Menghapus import yang tidak digunakan atau tidak diperlukan yakni import org.springframework.web.bind.annotation.*;, menjadi import hal-hal yang digunakan saja dari package tersebut.
 c. Dan saya menyelesaikan masalah `This utility class has a non-private constructor` dengan cara menghapus public pada bagian yang dibutuhkan.
 
-
 ## Refleksi 2
 #### Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
 Menurut saya, CI/CD workflow yang saya implementasikan sudah memenuhi definisi Continuous Integration dan Continuous Deployment. Pada bagian Continuous Integration, setiap kali ada push atau pull request, sistem otomatis menjalankan build dan unit test untuk memastikan kualitas kode. Selain itu, saya menggunakan tool seperti PMD untuk mendeteksi potensi masalah keamanan secara langsung. Untuk Continuous Deployment, saya menggunakan layanan otomatis untuk melakukan deployment ke lingkungan produksi setiap kali ada perubahan pada branch utama, memastikan aplikasi selalu up-to-date tanpa intervensi manual.
+
+# TUTORIAL 3:
+## Refleksi 1:
+### Explain what principles you apply to your project!
+a. Single Responsibility Principle (SRP) adalah salah satu prinsip dalam SOLID yang menyatakan bahwa sebuah kelas atau modul harus memiliki satu alasan untuk berubah, yang berarti setiap kelas hanya boleh memiliki satu tanggung jawab utama. Dalam proyek saya, saya sudah menerapkan SRP dengan cara memisahkan `CarController` dan `ProductController`. `CarController` hanya bertanggung jawab untuk menangani operasi yang berhubungan dengan Car, seperti  membuat, mengedit, menghapus, dan menampilkan daftar mobil. Sedangkan ProductController bertanggung jawab untuk menangani operasi pada produk secara umum.
+
+b. Selain itu, saya juga sudah menerapkan prinsip DIP. Prinsip ini menyatakan bahwa kelas-kelas tingkat tinggi tidak boleh bergantung langsung pada kelas-kelas tingkat rendah, tetapi keduanya harus bergantung pada abstraksi. 
+Pada proyek ini, saya telah menerapkan DIP dengan cara sebagai berikut:
+- CarRepositoryInterface dibuat untuk mengabstraksi implementasi repository, yang sebelumnya langsung bergantung pada CarRepository konkret. Dengan ini, saya bisa mengganti implementasi penyimpanan data tanpa mempengaruhi logika yang ada di service.
+- `CarServiceImpl` sekarang bergantung pada `CarRepositoryInterface`, yang memungkinkan saya untuk mengganti implementasi penyimpanan atau menambahkan penyimpanan baru tanpa merubah service.
+- `CarController` juga tetap bergantung pada `CarService (interface)`, memastikan controller tidak terikat pada implementasi konkret dari service.
+
+c. Open/Closed Principle (OCP) menyatakan bahwa kelas harus terbuka untuk ekstensi, tetapi tertutup untuk modifikasi. Saya sudah menerapkan ini dengan cara CarServiceImpl mengimplements CarService.
+
+## Refleksi 2:
+### 
