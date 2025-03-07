@@ -116,41 +116,35 @@ class PaymentServiceTest {
     @Test
     void testSetStatusRejected() {
         Payment payment = new Payment("a5e93216-127c-43df-b7f1-89b720e496bb",order, "VOUCHER", Map.of("voucherCode", "ESHOP1234ABC5678"));
+        Payment payment = new Payment("a5e93216-127c-43df-b7f1-89b720e496bb", order1, "VOUCHER", Map.of("voucherCode", "ESHOP1234ABC5678"));
 
         when(paymentRepository.save(any(Payment.class))).thenAnswer(invocation -> invocation.getArgument(0));
         payment = paymentService.setStatus(payment, "REJECTED");
-        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
-        assertEquals(OrderStatus.FAILED.getValue(), payment.getOrder().getStatus());
-    }
+        @@ -127,7 +127,7 @@
+        void testSetInvalidStatus() {
+            when(paymentRepository.save(any(Payment.class))).thenAnswer(invocation -> invocation.getArgument(0));
+            assertThrows(IllegalArgumentException.class, () -> {
+                Payment payment = new Payment("a5e93216-127c-43df-b7f1-89b720e496bb",order, "VOUCHER", Map.of("voucherCode", "ESHOP1234ABC5678"));
+                Payment payment = new Payment("a5e93216-127c-43df-b7f1-89b720e496bb", order1, "VOUCHER", Map.of("voucherCode", "ESHOP1234ABC5678"));
+                payment = paymentService.setStatus(payment, "KELAR");
+            });
+        }
+        @@ -145,11 +145,14 @@
+        void testGetAllPayments() {
+            when(paymentRepository.findAll()).thenReturn(payments.iterator());
 
-    @Test
-    void testSetInvalidStatus() {
-        when(paymentRepository.save(any(Payment.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        assertThrows(IllegalArgumentException.class, () -> {
-            Payment payment = new Payment("a5e93216-127c-43df-b7f1-89b720e496bb",order, "VOUCHER", Map.of("voucherCode", "ESHOP1234ABC5678"));
-            payment = paymentService.setStatus(payment, "KELAR");
-        });
-    }
+            List<Payment> result = paymentService.getAllPayments();
+            Iterator<Payment> result = paymentService.getAllPayments();
 
-    @Test
-    void testGetPayment() {
-        Payment payment = payments.get(1);
-        when(paymentRepository.findById(payment.getId())).thenReturn(payment);
+            assertEquals(payments.size(), result.size());
+            assertEquals(payments.get(0).getId(), result.get(0).getId());
+            assertEquals(payments.get(1).getId(), result.get(1).getId());
+            List<Payment> resultList = new ArrayList<>();
+            result.forEachRemaining(resultList::add);
 
-        Payment result = paymentService.findById(payment.getId());
-        Payment result = paymentService.getPayment(payment.getId());
-        assertEquals(payment.getId(), result.getId());
-    }
+            assertEquals(payments.size(), resultList.size());
+            assertEquals(payments.get(0).getId(), resultList.get(0).getId());
+            assertEquals(payments.get(1).getId(), resultList.get(1).getId());
 
-    @Test
-    void testGetAllPayments() {
-        when(paymentRepository.findAll()).thenReturn(payments.iterator());
-
-        List<Payment> result = paymentService.getAllPayments();
-
-        assertEquals(payments.size(), result.size());
-        assertEquals(payments.get(0).getId(), result.get(0).getId());
-        assertEquals(payments.get(1).getId(), result.get(1).getId());
-
-        verify(paymentRepository, times(1)).findAll();
-    }
+            verify(paymentRepository, times(1)).findAll();
+        }
