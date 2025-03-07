@@ -60,3 +60,37 @@ Dengan memisahkan tanggung jawab dalam berbagai kelas, seperti CarController yan
 - Tanpa penerapan DIP, kelas tingkat tinggi akan bergantung langsung pada kelas tingkat rendah, yang membuat kode menjadi sulit untuk diperbarui. Misalnya, jika CarServiceImpl langsung bergantung pada implementasi CarRepository yang konkret, perubahan pada cara penyimpanan data akan mengharuskan untuk mengubah kode di berbagai tempat, termasuk service dan controller, yang sangat berisiko mengganggu fungsionalitas yang ada. 
 
 - Jika kode tidak mengikuti prinsip OCP, maka menambahkan fitur baru akan memerlukan perubahan langsung pada kelas yang sudah ada, bukannya cukup memperluasnya. Misalnya, jika ingin menambahkan fungsionalitas pencarian dalam CarServiceImpl, mungkin harus mengubah banyak bagian dari kode yang ada, yang berisiko menimbulkan bug atau merusak fungsionalitas yang sudah ada.
+
+
+
+# TUTORIAL 4
+## Refleksi 1:
+Manfaat TDD
+Pendekatan TDD memaksa saya untuk mendefinisikan ekspektasi dan perilaku kode sebelum implementasi. Dengan menulis pengujian terlebih dahulu, saya menjadi lebih fokus pada tujuan fungsi yang ingin dicapai, sehingga proses debugging pun menjadi lebih cepat karena setiap kegagalan pada test langsung menunjukkan area yang perlu diperbaiki. Secara keseluruhan, TDD sangat berguna dalam memberikan feedback instan dan menjaga agar kode selalu sesuai dengan spesifikasi yang diharapkan.
+
+Tantangan dan Ruang Perbaikan
+Meskipun TDD memberikan banyak manfaat, ada beberapa aspek yang perlu saya perbaiki di masa depan:
+
+- Cakupan Kasus Uji: Terkadang, saya menyadari ada skenario atau edge case yang terlewat. Berdasarkan pertanyaan reflektif Percival (2017), saya perlu lebih sistematis dalam merancang test case agar dapat mencakup semua kondisi, termasuk skenario error atau kondisi tak terduga.
+- Desain Pengujian: Sebagai pendatang baru dalam TDD, saya masih menghadapi kesulitan dalam menyusun desain test yang optimal. Ke depan, saya perlu mempelajari lebih lanjut teknik pembuatan test case yang lebih terstruktur agar setiap test benar-benar menggambarkan satu unit perilaku yang spesifik.
+
+## Refleksi 2:
+Fast (Cepat):
+Pengujian saya umumnya berjalan dengan cepat karena tidak bergantung pada resource eksternal (misalnya, akses basis data atau jaringan). Hal ini mendukung workflow pengembangan yang efisien.
+
+Independent (Mandiri):
+Saya telah menerapkan anotasi seperti @BeforeEach untuk memastikan tiap test dijalankan dalam kondisi bersih dan tidak saling bergantung. Namun, perlu diwaspadai agar setiap test benar-benar tidak meninggalkan efek samping yang dapat memengaruhi test lain.
+
+Repeatable (Dapat Diulang):
+Tes saya dapat diulang dengan hasil yang konsisten di berbagai lingkungan (lokal maupun CI). Untuk lebih meningkatkan repeatability, saya akan memastikan semua data test disiapkan secara lokal di setiap test case.
+
+Self-Validating (Mengautentikasi Diri):
+Penggunaan assertion seperti assertEquals, assertNull, dan assertThrows telah membantu menjadikan tes saya pass/fail secara otomatis. Di masa depan, saya akan berupaya menambahkan validasi yang lebih detail untuk kondisi-kondisi error agar setiap aspek fungsi dapat diverifikasi secara menyeluruh.
+
+Timely (Tepat Waktu):
+Dengan menulis test terlebih dahulu sebelum implementasi, saya sudah cukup menerapkan prinsip timely. Pendekatan ini membuat saya lebih fokus dalam mengembangkan kode yang benar-benar modular dan mudah diuji. Meski demikian, saya menyadari bahwa menulis tes tambahan setelah refactoring juga penting untuk memastikan tidak ada fungsionalitas yang rusak.
+
+Kesimpulan
+Secara keseluruhan, saya menilai alur TDD yang saya gunakan sudah sangat membantu dalam mengarahkan pengembangan kode dan memberikan feedback cepat. Namun, saya perlu meningkatkan cakupan kasus uji dan menyempurnakan desain test untuk memastikan bahwa setiap kemungkinan (termasuk kondisi edge dan error) telah tertangani. Begitu pula, prinsip F.I.R.S.T sudah sebagian besar saya terapkan dengan baik, tetapi masih ada ruang perbaikan terutama dalam aspek independensi dan validasi yang lebih menyeluruh.
+
+Dengan refleksi ini, saya berkomitmen untuk terus belajar dan mengadaptasi praktik terbaik dalam penulisan test, sehingga di iterasi pengembangan berikutnya, kualitas pengujian dan desain kode dapat semakin meningkat.
