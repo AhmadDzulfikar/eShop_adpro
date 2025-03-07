@@ -43,6 +43,7 @@ public class Payment {
         else {
             this.status = PaymentStatus.REJECTED.getValue();
         }
+
     }
 
     private void validateBankTransferPayment() {
@@ -54,6 +55,7 @@ public class Payment {
         else {
             this.status = PaymentStatus.REJECTED.getValue();
         }
+
     }
 
     public void setStatus(String status) {
@@ -61,5 +63,6 @@ public class Payment {
             throw new IllegalArgumentException();
         }
         this.status = status;
+
     }
 }
