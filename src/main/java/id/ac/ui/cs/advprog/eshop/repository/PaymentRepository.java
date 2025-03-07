@@ -13,7 +13,6 @@ public class PaymentRepository {
     private List<Payment> payments = new ArrayList<>();
 
     public Payment save(Payment payment) {
-        return null;
         int i = 0;
         for (Payment p : payments) {
             if (p.getId().equals(payment.getId())) {
@@ -38,7 +37,6 @@ public class PaymentRepository {
     }
 
     public Iterator<Payment> findAll() {
-        return null;
         return payments.iterator();
     }
 }
