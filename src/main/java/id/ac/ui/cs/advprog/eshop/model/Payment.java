@@ -1,35 +1,65 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
-import lombok.Builder;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @Getter
-@Setter
-
 public class Payment {
     String id;
+    Order order;
     String method;
     Map<String, String> paymentData;
     String status;
-    Order order;
 
-    public Payment(String method, Map<String, String> paymentData, Order order) {
-        if (order == null && paymentData == null) {
+    public Payment(String id, Order order, String method, Map<String, String> paymentData) {
+        if (order == null || paymentData == null) {
             throw new IllegalArgumentException();
         }
-        this.id = UUID.randomUUID().toString();
+
+        this.id = id;
         this.order = order;
         this.paymentData = paymentData;
 
-        if (!method.equals("VOUCHER") || !method.equals("CASH_ON_DELIVERY")) {
+        if (!PaymentMethods.contains(method)) {
             throw new IllegalArgumentException();
         }
         this.method = method;
+
+        if (method.equals(PaymentMethods.VOUCHER.getValue())) {
+            validateVoucherPayment();
+        }
+        else if (method.equals(PaymentMethods.BANK_TRANSFER.getValue())) {
+            validateBankTransferPayment();
+        }
+    }
+
+    private void validateVoucherPayment() {
+        String voucher = paymentData.get("voucherCode");
+        if ((voucher != null && voucher.length() == 16) && voucher.startsWith("ESHOP") && countDigit(voucher) == 8) {
+            this.status = PaymentStatus.SUCCESS.getValue();
+        }
+        else {
+            this.status = PaymentStatus.REJECTED.getValue();
+        }
+    }
+
+    private void validateBankTransferPayment() {
+        String bankName = paymentData.get("bankName");
+        String referenceCode = paymentData.get("referenceCode");
+        if (bankName != null && !bankName.isEmpty() && referenceCode != null && !referenceCode.isEmpty()) {
+            this.status = PaymentStatus.SUCCESS.getValue();
+        }
+        else {
+            this.status = PaymentStatus.REJECTED.getValue();
+        }
+    }
+
+    public void setStatus(String status) {
+        if (!PaymentStatus.contains(status)) {
+            throw new IllegalArgumentException();
+        }
+        this.status = status;
     }
 }
