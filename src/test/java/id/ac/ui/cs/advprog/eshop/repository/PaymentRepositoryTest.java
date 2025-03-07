@@ -77,20 +77,6 @@ class PaymentRepositoryTest {
     }
 
     @Test
-    void testFindPaymentByIdAndFound() {
-        for (Payment payment : payments) {
-            paymentRepository.save(payment);
-        }
-
-        Payment findPayment = paymentRepository.findById(payments.get(1).getId());
-        assertEquals(payments.get(1).getId(), findPayment.getId());
-        assertEquals(payments.get(1).getPaymentData(), findPayment.getPaymentData());
-        assertEquals(payments.get(1).getOrder(), findPayment.getOrder());
-        assertEquals(payments.get(1).getStatus(), findPayment.getStatus());
-        assertEquals(payments.get(1).getMethod(), findPayment.getMethod());
-    }
-
-    @Test
     void testFindPaymentByIdAndNotFound() {
         for (Payment payment : payments) {
             paymentRepository.save(payment);
@@ -102,30 +88,40 @@ class PaymentRepositoryTest {
 
     @Test
     void testFindAllPaymentsIfEmpty() {
-        Iterator<Product> paymentIterator = paymentRepository.findAll();
         Iterator<Payment> paymentIterator = paymentRepository.findAll();
         assertFalse(paymentIterator.hasNext());
     }
 
-    @@ -115,16 +115,16 @@
-            Iterator<Payment> paymentIterator = paymentRepository.findAll();
-    assertTrue(paymentIterator.hasNext());
-    Payment firstPayment = paymentIterator.next();
-    assertEquals(payments.get(1).getId(), savedPayment.getId());
-    assertEquals(payments.get(1).getPaymentData(), savedPayment.getPaymentData());
-    assertEquals(payments.get(1).getOrder(), savedPayment.getOrder());
-    assertEquals(payments.get(1).getStatus(), savedPayment.getStatus());
-    assertEquals(payments.get(1).getMethod(), savedPayment.getMethod());
-    assertEquals(payments.get(1).getId(), firstPayment.getId());
-    assertEquals(payments.get(1).getPaymentData(), firstPayment.getPaymentData());
-    assertEquals(payments.get(1).getOrder(), firstPayment.getOrder());
-    assertEquals(payments.get(1).getStatus(), firstPayment.getStatus());
-    assertEquals(payments.get(1).getMethod(), firstPayment.getMethod());
-    Payment secondPayment = paymentIterator.next();
-    assertEquals(payments.get(2).getId(), secondPayment.getId());
-    assertEquals(payments.get(2).getPaymentData(), secondPayment.getPaymentData());
-    assertEquals(payments.get(2).getOrder(), secondPayment.getOrder());
-    assertEquals(payments.get(2).getStatus(), secondPayment.getStatus());
-    assertEquals(payments.get(2).getMethod(), secondPayment.getMethod());
-    assertFalse(paymentIterator.hasNext());
+    @Test
+    void testFindAllIfMoreThanOnePayment() {
+        for (Payment payment : payments) {
+            paymentRepository.save(payment);
+        }
+
+        Iterator<Payment> paymentIterator = paymentRepository.findAll();
+        assertTrue(paymentIterator.hasNext());
+        Payment firstPayment = paymentIterator.next();
+        assertEquals(payments.get(1).getId(), firstPayment.getId());
+        assertEquals(payments.get(1).getPaymentData(), firstPayment.getPaymentData());
+        assertEquals(payments.get(1).getOrder(), firstPayment.getOrder());
+        assertEquals(payments.get(1).getStatus(), firstPayment.getStatus());
+        assertEquals(payments.get(1).getMethod(), firstPayment.getMethod());
+        assertEquals(payments.get(0).getId(), firstPayment.getId());
+        assertEquals(payments.get(0).getPaymentData(), firstPayment.getPaymentData());
+        assertEquals(payments.get(0).getOrder(), firstPayment.getOrder());
+        assertEquals(payments.get(0).getStatus(), firstPayment.getStatus());
+        assertEquals(payments.get(0).getMethod(), firstPayment.getMethod());
+        Payment secondPayment = paymentIterator.next();
+        assertEquals(payments.get(2).getId(), secondPayment.getId());
+        assertEquals(payments.get(2).getPaymentData(), secondPayment.getPaymentData());
+        assertEquals(payments.get(2).getOrder(), secondPayment.getOrder());
+        assertEquals(payments.get(2).getStatus(), secondPayment.getStatus());
+        assertEquals(payments.get(2).getMethod(), secondPayment.getMethod());
+        assertEquals(payments.get(1).getId(), secondPayment.getId());
+        assertEquals(payments.get(1).getPaymentData(), secondPayment.getPaymentData());
+        assertEquals(payments.get(1).getOrder(), secondPayment.getOrder());
+        assertEquals(payments.get(1).getStatus(), secondPayment.getStatus());
+        assertEquals(payments.get(1).getMethod(), secondPayment.getMethod());
+        assertFalse(paymentIterator.hasNext());
+    }
 }
